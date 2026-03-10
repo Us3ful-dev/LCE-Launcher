@@ -13,4 +13,4 @@ This loader manages your LCE installations and can update them if needed (from g
 - [ ] Configurable links saves between LCE installs
 
 ## Download installer:
-- (https://github.com/Us3ful-dev/LCE-Launcher/releases)
+- (https://github.com/Us3ful-dev/LCE-Launcher-Installer/releases)
