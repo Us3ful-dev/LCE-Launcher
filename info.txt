@@ -1,0 +1,41 @@
+filemanagment:
+main dir (appdata/LCE-Launcher)-probably 
+└ LCE-Launcher.exe
+└ config.json
+└ installsinfo.json
+└ instalations
+│ └ <all instalations>
+└ savedstuff
+  └ <saved saves>
+  └ <saved config files>
+
+TODO:
+github integration
+└ [] update self
+│ └ [] requires updater program
+└ [] update installs
+tools for users
+└ [] save world and load them in others
+filemanagment
+└ [] main
+  └ [] user installs
+  └ [] global words and settings (from installs)
+  └ [] config files (self)
+UI
+└ [] loading screen
+└ [] homescreen
+  └ [] show installs
+  │ └ [] edit installs
+  │   └ [] edit saves
+  │   └ [] edit configs
+  └ [] settings
+  │ └ [] autoupdate installs
+  │ └ [] ...
+  └ [] gloabal manager ()
+modloaders
+└ [] legacyweaveloader
+└ [] faucet
+FIXES
+└ [] windows defender being stupid
+Posible:
+└ [] git token to raise request limit per hour from 60 to 5000 (user owned)

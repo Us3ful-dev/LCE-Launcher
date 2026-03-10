@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d17xpaig82kcr"]
+
+[ext_resource type="Script" uid="uid://bpwngvan51i4o" path="res://Scenes/Main/main_loader.gd" id="1_chasf"]
+
+[node name="Main loader" type="Node" unique_id=1931599006]
+script = ExtResource("1_chasf")

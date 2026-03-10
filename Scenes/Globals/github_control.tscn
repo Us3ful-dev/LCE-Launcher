@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d2t403v4eeuyp"]
+
+[ext_resource type="Script" uid="uid://dh0np4ddsd8ay" path="res://Scenes/Globals/github_control.gd" id="1_8mjjv"]
+
+[node name="GithubControl" type="Node" unique_id=525924181]
+script = ExtResource("1_8mjjv")
