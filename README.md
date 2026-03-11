@@ -18,7 +18,7 @@ This loader manages your LCE installations and can update them if wanted (from g
 githubapi integration
 - └ [X] update self
 - │ └ [X] requires updater program
-- └ [ ] update installs
+- └ [X] update installs
 - └ [X] git token to raise request limit per hour from 60 to 5000 (user owned)
 
 tools for users
