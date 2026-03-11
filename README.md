@@ -4,12 +4,15 @@
 This is a loader for legacy console edition (a certain block game)
 
 ## What does it do:
-This loader manages your LCE installations and can update them if needed (from github)
+This loader manages your LCE installations and can update them if wanted (from github)
 
 ### Additional features:
 - Support modloaders ()
 - Install texture and skin packs
 - Custom themes for launcher
+
+## Download installer:
+- (https://github.com/Us3ful-dev/LCE-Launcher-Installer/releases)
 
 ## TODO:
 githubapi integration
@@ -47,6 +50,3 @@ UI
 -   └ [ ] settings
 -   │ └ [ ] autoupdate installs
 -   │ └ [ ] load custom theme
-
-## Download installer:
-- (https://github.com/Us3ful-dev/LCE-Launcher-Installer/releases)
