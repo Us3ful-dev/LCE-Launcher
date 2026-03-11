@@ -13,17 +13,17 @@ func menu_manager(newmenu :String) -> void:
 	currenmenu = newmenu
 	if currenmenu == "main":
 		build_installed_vbox()
-		$MainField/EditInstallButton.visible = true
+		$MainField/NewInstallButton.visible = true
 		$TopBar/GithubToken.visible = true
 		$MainField/EditInstall.visible = false
 	elif newmenu == "main/edit_installation":
 		$MainField/Installed.visible = false
-		$MainField/EditInstallButton.visible = false
+		$MainField/NewInstallButton.visible = false
 		$TopBar/GithubToken.visible = false
 		$MainField/EditInstall.visible = true
 	elif newmenu == "main/new_installation":
 		$MainField/Installed.visible = false
-		$MainField/EditInstallButton.visible = false
+		$MainField/NewInstallButton.visible = false
 		$TopBar/GithubToken.visible = false
 		$MainField/EditInstall.visible = true
 	
@@ -57,13 +57,14 @@ func install_uptodate(installname :String):
 
 func next_install_step():
 	if len(installsteps) > 0:
-		var lastwasgit := false
+		var noautonext := false
 		if installsteps[0].has("git"):
 			print("requesting github")
-			lastwasgit = true
+			noautonext = true
 			GithubControl.update_github_file(installsteps[0]["git"])
 			GlobalVariables.installtiles[installsteps[0]["git"]["installname"]].set_status("Installing")
 		elif installsteps[0].has("unzip"):
+			noautonext = true
 			print("unzipping: ", installsteps[0]["unzip"][0], installsteps[0]["unzip"][1], true)
 			FileEditor.extract_zip(installsteps[0]["unzip"][0], installsteps[0]["unzip"][1], true)
 		elif installsteps[0].has("final"):
@@ -72,7 +73,7 @@ func next_install_step():
 			GlobalVariables.installtiles[ installsteps[0]["final"] ].set_status()
 			FileEditor.save_installsdata()
 		installsteps.remove_at(0)
-		if !lastwasgit:
+		if !noautonext:
 			next_install_step()
 
 func _on_github_token_changed(token: String) -> void:

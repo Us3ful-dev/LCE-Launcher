@@ -1,4 +1,4 @@
-extends ColorRect
+extends Sprite2D
 
 var linkedinstall :String
 var linkedinstalldata :Dictionary
@@ -17,11 +17,14 @@ func set_status():
 		$Play.disabled = false
 
 func _on_play_button_down() -> void:
-	if !GlobalVariables.installations[linkedinstall]["status"] == "ready":
-		print("playing: ", linkedinstalldata["path"] + "/" + linkedinstalldata["executablename"], " With args: ", linkedinstalldata["executableargs"])
+	print("trying to play: ", linkedinstalldata["path"] + "/" + linkedinstalldata["executablename"], " With args: ", linkedinstalldata["executableargs"])
+	if GlobalVariables.installations[linkedinstall]["status"] == "ready":
 		var pid = OS.create_process(linkedinstalldata["path"] + "/" + linkedinstalldata["executablename"], linkedinstalldata["executableargs"])
 		if pid == -1:
 			printerr("Failed to launch: ", get_parent().filename)
+
+func _on_update_button_down() -> void:
+	pass
 
 func _on_open_folder_button_down() -> void:
 	OS.shell_show_in_file_manager(linkedinstalldata["path"])

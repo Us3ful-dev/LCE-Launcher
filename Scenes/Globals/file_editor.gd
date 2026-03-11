@@ -73,9 +73,10 @@ func thread_extract_zip(filepath :String, outputpath :String, removezip :bool):
 	
 	if removezip:
 		var rerr := DirAccess.remove_absolute(filepath)
-		if err != OK:
+		if rerr != OK:
 			push_error("failed to delete old zip: ", err)
 	
+	GlobalVariables.uinode.next_install_step() # probably not very clean but should work for now
 	print_rich("[color=green]extraction complete")
 
 func _exit_tree():
