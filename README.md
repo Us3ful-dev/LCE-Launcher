@@ -1,7 +1,7 @@
 # LCE Loader
 
 ## What is this:
-This is a loader for legacy console edition (a certain block game)
+This is a loader for legacy console edition (https://github.com/smartcmd/MinecraftConsoles)
 
 ## What does it do:
 This loader manages your LCE installations and can update them if wanted (from github)
