@@ -1,6 +1,26 @@
 [gd_scene format=3 uid="uid://mmcgg5adsukk"]
 
 [ext_resource type="Script" uid="uid://dnwor6wqfamst" path="res://Scenes/UI/ui.gd" id="1_ahcct"]
+[ext_resource type="FontFile" uid="uid://blbsshn847h61" path="res://editundo.ttf" id="2_de23q"]
+[ext_resource type="Texture2D" uid="uid://cuygtb1wo6ett" path="res://StandardThemeTiles/TopBar.png" id="2_fo61o"]
+[ext_resource type="Texture2D" uid="uid://bpktnpbjpfo0p" path="res://icons/addnew.png" id="3_c7mb3"]
+[ext_resource type="Texture2D" uid="uid://cpt2jh061b3dg" path="res://StandardThemeTiles/MainField.png" id="4_alcrr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c7mb3"]
+font = ExtResource("2_de23q")
+font_size = 30
+font_color = Color(0.8217887, 0.82178867, 0.82178867, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fo61o"]
+font = ExtResource("2_de23q")
+font_size = 20
+font_color = Color(0.8474744, 0.84747446, 0.84747446, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_alcrr"]
+font_size = 20
+font_color = Color(0.8196969, 0.018333076, 5.7756904e-07, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
 
 [node name="UI" type="Control" unique_id=274926796]
 layout_mode = 3
@@ -10,3 +30,144 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ahcct")
+
+[node name="TopBar" type="Sprite2D" parent="." unique_id=428320755]
+position = Vector2(600, 22)
+texture = ExtResource("2_fo61o")
+metadata/_edit_use_anchors_ = true
+
+[node name="GithubToken" type="LineEdit" parent="TopBar" unique_id=217416095]
+anchors_preset = -1
+anchor_left = 0.60833335
+anchor_top = 0.1590909
+anchor_right = 0.99
+anchor_bottom = 0.8636364
+offset_left = -599.0
+offset_top = -23.0
+offset_right = -599.0
+offset_bottom = -23.0
+tooltip_text = "more available update requests to github api: 60 -> 5000 an hour"
+theme_override_fonts/font = ExtResource("2_de23q")
+placeholder_text = "Your Github Token"
+emoji_menu_enabled = false
+metadata/_edit_use_anchors_ = true
+
+[node name="MainField" type="Sprite2D" parent="." unique_id=1914282331]
+texture = ExtResource("4_alcrr")
+offset = Vector2(600, 347)
+metadata/_edit_use_anchors_ = true
+
+[node name="NewInstallButton" type="Button" parent="MainField" unique_id=1895639871]
+anchors_preset = -1
+anchor_left = 0.0058333334
+anchor_top = 0.013201321
+anchor_right = 0.18958333
+anchor_bottom = 0.072607264
+offset_top = 44.0
+offset_right = 220.5
+offset_bottom = 80.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("2_de23q")
+theme_override_font_sizes/font_size = 40
+text = "New instalation"
+icon = ExtResource("3_c7mb3")
+metadata/_edit_use_anchors_ = true
+
+[node name="Installed" type="ScrollContainer" parent="MainField" unique_id=202870603]
+anchors_preset = -1
+anchor_top = 0.08250825
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Installedvbox" type="VBoxContainer" parent="MainField/Installed" unique_id=754549121]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="EditInstall" type="VBoxContainer" parent="MainField" unique_id=195810466]
+anchors_preset = -1
+anchor_left = 0.30541667
+anchor_top = 0.16006601
+anchor_right = 0.69458336
+anchor_bottom = 0.839934
+offset_top = 44.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="MainField/EditInstall" unique_id=1534064811]
+layout_mode = 2
+text = "Installation settings:"
+label_settings = SubResource("LabelSettings_c7mb3")
+horizontal_alignment = 1
+
+[node name="InstallName" type="HBoxContainer" parent="MainField/EditInstall" unique_id=1650502889]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Name" type="Label" parent="MainField/EditInstall/InstallName" unique_id=764015450]
+layout_mode = 2
+text = "Name of install: "
+label_settings = SubResource("LabelSettings_fo61o")
+
+[node name="SelectedName" type="LineEdit" parent="MainField/EditInstall/InstallName" unique_id=450530032]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+tooltip_text = "Name of installation
+Max 20 caracters (for now)"
+theme_override_fonts/font = ExtResource("2_de23q")
+theme_override_font_sizes/font_size = 20
+placeholder_text = "name"
+max_length = 20
+emoji_menu_enabled = false
+middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="Installtypebox" type="HBoxContainer" parent="MainField/EditInstall" unique_id=514976082]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Name" type="Label" parent="MainField/EditInstall/Installtypebox" unique_id=2040503756]
+layout_mode = 2
+text = "Type of install: "
+label_settings = SubResource("LabelSettings_fo61o")
+
+[node name="InstallType" type="OptionButton" parent="MainField/EditInstall/Installtypebox" unique_id=1642223998]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_de23q")
+theme_override_font_sizes/font_size = 20
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Vanilla LCE"
+popup/item_0/id = 0
+popup/item_1/text = "Weave Loader"
+popup/item_1/id = 1
+popup/item_2/text = "Faucet Loader"
+popup/item_2/id = 2
+
+[node name="FinishInstall" type="Button" parent="MainField/EditInstall" unique_id=579348931]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_de23q")
+theme_override_font_sizes/font_size = 24
+text = "Create Installation"
+
+[node name="ErrorMSG" type="Label" parent="MainField/EditInstall" unique_id=2002234439]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_alcrr")
+horizontal_alignment = 1
+
+[connection signal="text_changed" from="TopBar/GithubToken" to="." method="_on_github_token_changed"]
+[connection signal="button_down" from="MainField/NewInstallButton" to="." method="_on_new_install_button_down"]
+[connection signal="button_down" from="MainField/EditInstall/FinishInstall" to="." method="_on_finish_install_down"]

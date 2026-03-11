@@ -31,20 +31,22 @@ func _ready() -> void:
 	downloadrequester.use_threads = true #downloads in the background using seperate thread
 	downloadrequester.request_completed.connect(on_download_completed)
 
-func update_github_file(ngithubapi :String, nrequestedfilename :String, ninstallname :String, ninsamerelease :bool, nrequestnode, ndownloadpath :String) -> bool:
+func update_github_file(gitargs :Dictionary) -> bool:
+	print("request: ", gitargs, " already working: ", alreadyworking)
 	if alreadyworking:
+		requestnode.failed_install(installname)
 		return false
 	
 	if githubtoken != "":
 		headers.append("Authorization: Bearer " + githubtoken)
 	
 	alreadyworking = true
-	githubapi = ngithubapi
-	requestedfilename = nrequestedfilename
-	installname = ninstallname
-	insamerelease = ninsamerelease
-	requestnode = nrequestnode
-	downloadpath = ndownloadpath + "/" + nrequestedfilename
+	githubapi = gitargs["githubapi"]
+	requestedfilename = gitargs["requestedfilename"]
+	installname = gitargs["installname"]
+	insamerelease = gitargs["insamerelease"]
+	requestnode = gitargs["requestnode"]
+	downloadpath = gitargs["downloadpath"] + "/" + gitargs["requestedfilename"]
 	
 	checkrequester.request(githubapi, headers)
 	
@@ -55,19 +57,18 @@ func on_request_completed(result, response_code, _headers, body) -> void:
 		print("Body: ", body.get_string_from_utf8())
 		print("Failed to check for updates: ", response_code)
 		alreadyworking = false
+		requestnode.failed_install(installname)
 		return
 	
 	var json := JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var data :Dictionary = json.get_data()
 	
-	print(data)
-	
 	if insamerelease: 
 		var lastupdate = ""
 		var installdata = FileEditor.open_json(FileEditor.rootpath + "/installsinfo.json")
 		if installdata.has(installname):
-			lastupdate = installdata[installname]
+			lastupdate = installdata[installname]["installversion"]
 		
 		if data["published_at"] != lastupdate:
 			print("Update available, published: ", data["published_at"])
@@ -76,17 +77,21 @@ func on_request_completed(result, response_code, _headers, body) -> void:
 			
 			newupdatetag = data["published_at"]
 		else:
+			requestnode.install_uptodate(installname)
+			alreadyworking = false
 			print("Already up to date.")
 	else:
 		var expectedversion = ""
 		var installdata = FileEditor.open_json(FileEditor.rootpath + "/installsinfo.json")
 		if installdata.has(installname):
-			expectedversion = installdata[installname]
+			expectedversion = installdata[installname]["installversion"]
 		
 		if data["tag_name"] != expectedversion:
 			print("Update available: ", data["tag_name"])
 			download_release(data["assets"])
 		else:
+			requestnode.install_uptodate(installname)
+			alreadyworking = false
 			print("Already up to date.")
 
 func download_release(assets: Array) -> void:
@@ -100,24 +105,27 @@ func download_release(assets: Array) -> void:
 	if downloadurl == "":
 		print("No matching asset found")
 		alreadyworking = false
+		requestnode.failed_install(installname)
 		return
 	
 	downloadrequester.download_file = downloadpath
 	downloadrequester.request(downloadurl, headers)
-	print("Downloading update")
+	print("Downloading update from: ", downloadurl)
 
 func on_download_completed(result, response_code, _headers, body):
 	if result == HTTPRequest.RESULT_SUCCESS:
 		print("Download complete: ", downloadpath)
 		# update what version is installed
-		var data = FileEditor.open_json(FileEditor.rootpath + "/installsinfo.json")
-		if data.has(installname):
-			data[installname] = newupdatetag
-		FileEditor.make_write_json(FileEditor.rootpath + "/installsinfo.json", data)
+		if installname != "":
+			var data = FileEditor.open_json(FileEditor.rootpath + "/installsinfo.json")
+			if data.has(installname):
+				data[installname]["installversion"] = newupdatetag
+			FileEditor.make_write_json(FileEditor.rootpath + "/installsinfo.json", data)
 		
 		alreadyworking = false
-		requestnode.update_finished()
+		requestnode.install_finished(installname)
 	else:
 		print("Body: ", body.get_string_from_utf8())
 		print("Download failed: ", response_code)
 		alreadyworking = false
+		requestnode.failed_install(installname)

@@ -1,6 +1,29 @@
 [gd_scene format=3 uid="uid://d17xpaig82kcr"]
 
 [ext_resource type="Script" uid="uid://bpwngvan51i4o" path="res://Scenes/Main/main_loader.gd" id="1_chasf"]
+[ext_resource type="Texture2D" uid="uid://ce121e5fnv6be" path="res://StandardThemeTiles/LoadBackground.png" id="2_xajni"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_chasf"]
+font_size = 25
 
 [node name="Main loader" type="Node" unique_id=1931599006]
 script = ExtResource("1_chasf")
+
+[node name="Loadingscreen" type="CanvasLayer" parent="." unique_id=1979596694]
+
+[node name="Background" type="Sprite2D" parent="Loadingscreen" unique_id=1693666611]
+position = Vector2(600, 325)
+texture = ExtResource("2_xajni")
+
+[node name="Loading" type="Label" parent="Loadingscreen" unique_id=1632152023]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = 0.0046153767
+anchor_top = 0.0046153846
+anchor_right = 0.99538463
+anchor_bottom = 0.99538463
+grow_horizontal = 2
+grow_vertical = 0
+text = "Loading..."
+label_settings = SubResource("LabelSettings_chasf")
+metadata/_edit_use_anchors_ = true

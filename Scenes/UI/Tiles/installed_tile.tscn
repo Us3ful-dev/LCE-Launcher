@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://ca3o4oc7v6axy"]
+
+[ext_resource type="Texture2D" uid="uid://dvh2gths38xrm" path="res://icons/play.png" id="1_flnu5"]
+[ext_resource type="FontFile" uid="uid://blbsshn847h61" path="res://editundo.ttf" id="1_mh56w"]
+[ext_resource type="Script" uid="uid://dtyr0fxvelupc" path="res://Scenes/UI/Tiles/installed_tile.gd" id="1_xa1qk"]
+[ext_resource type="Texture2D" uid="uid://bxu62u2t5dnhw" path="res://icons/folder.png" id="3_7v83n"]
+[ext_resource type="Texture2D" uid="uid://bxqt8oyrh00gl" path="res://icons/options.png" id="4_088gt"]
+[ext_resource type="Texture2D" uid="uid://4my4ltnvyelm" path="res://icons/download.png" id="6_8hiba"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mh56w"]
+font = ExtResource("1_mh56w")
+font_size = 35
+
+[sub_resource type="LabelSettings" id="LabelSettings_8hiba"]
+font_size = 22
+font_color = Color(0.6748146, 0.67481464, 0.6748144, 1)
+
+[node name="InstalledTile" type="ColorRect" unique_id=175209272]
+custom_minimum_size = Vector2(1200, 66)
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.101538464
+grow_horizontal = 2
+color = Color(0.19076213, 0.1907624, 0.19076225, 1)
+script = ExtResource("1_xa1qk")
+metadata/_edit_use_anchors_ = true
+
+[node name="Play" type="Button" parent="." unique_id=346911218]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.010833333
+anchor_top = 0.09090909
+anchor_right = 0.12145834
+anchor_bottom = 0.90909094
+offset_right = -23.75
+offset_bottom = 18.0
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 40
+text = " Play"
+icon = ExtResource("1_flnu5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="Label" parent="." unique_id=134783169]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1375
+anchor_top = 0.121212125
+anchor_right = 0.46833333
+anchor_bottom = 0.6060606
+text = "<Installation name>"
+label_settings = SubResource("LabelSettings_mh56w")
+metadata/_edit_use_anchors_ = true
+
+[node name="Status" type="Label" parent="." unique_id=128288226]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1375
+anchor_top = 0.59090906
+anchor_right = 0.46833333
+anchor_bottom = 1.0
+text = "Status:"
+label_settings = SubResource("LabelSettings_8hiba")
+visible_characters = 30
+visible_ratio = 4.285714
+metadata/_edit_use_anchors_ = true
+
+[node name="OpenFolder" type="Button" parent="." unique_id=1203162727]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6616667
+anchor_top = 0.09090909
+anchor_right = 0.80354166
+anchor_bottom = 0.90909094
+offset_right = 56.75
+offset_bottom = 18.0
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+theme_override_fonts/font = ExtResource("1_mh56w")
+theme_override_font_sizes/font_size = 25
+text = " Open folder"
+icon = ExtResource("3_7v83n")
+metadata/_edit_use_anchors_ = true
+
+[node name="EditInstallation" type="Button" parent="." unique_id=1992683001]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.81750005
+anchor_top = 0.09090909
+anchor_right = 0.993125
+anchor_bottom = 0.90909094
+offset_right = 70.25
+offset_bottom = 18.0
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 25
+text = " Edit installation"
+icon = ExtResource("4_088gt")
+metadata/_edit_use_anchors_ = true
+
+[node name="Install" type="Button" parent="." unique_id=1644855243]
+layout_mode = 0
+anchor_left = 0.49083334
+anchor_top = 0.09090909
+anchor_right = 0.6483333
+anchor_bottom = 0.90909094
+offset_right = 63.0
+offset_bottom = 18.0
+scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 25
+text = "Install update"
+icon = ExtResource("6_8hiba")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="button_down" from="Play" to="." method="_on_play_button_down"]
+[connection signal="button_down" from="OpenFolder" to="." method="_on_open_folder_button_down"]
+[connection signal="button_down" from="EditInstallation" to="." method="_on_edit_installation_button_down"]

@@ -11,15 +11,29 @@ config_version=5
 [application]
 
 config/name="LCE Launcher"
-config/version="Alpha 0.1"
+config/version="0.1"
 run/main_scene="uid://d17xpaig82kcr"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/image="uid://b5yst03fk7w0a"
+config/icon="uid://btcr1sokdoiy"
 
 [autoload]
 
 GithubControl="*uid://d2t403v4eeuyp"
 FileEditor="*uid://dmvddkkchss2i"
+GlobalVariables="*uid://7133p2emue05"
+
+[display]
+
+window/size/viewport_width=1200
+window/size/viewport_height=650
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
+
+[gui]
+
+theme/custom_font="uid://blbsshn847h61"
 
 [physics]
 
