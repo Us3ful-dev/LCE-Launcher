@@ -4,8 +4,14 @@ const UI := preload("res://Scenes/UI/ui.tscn")
 
 func _ready() -> void:
 	loading_text_msg("making dirs")
-	FileEditor.make_dirs(["/installations", "/globalsaves"])
+	FileEditor.make_dirs(["/installations", "/globalsaves", "/cache"])
 	loading_text_msg("making saves")
+	if !FileAccess.file_exists(FileEditor.rootpath + "/cache.json"):
+		var data := {
+			#settings
+		}
+		FileEditor.make_write_json(FileEditor.rootpath + "/config.json" , data)
+		setup_cache()
 	if !FileAccess.file_exists(FileEditor.rootpath + "/config.json"):
 		var data := {
 			#settings
@@ -20,6 +26,15 @@ func _ready() -> void:
 	loading_text_msg("checking installer file")
 	check_installer()
 
+func setup_cache() -> void:
+	FileEditor.make_dirs(["/cache/vanilla-lce", ]) #rest
+	GlobalVariables.cache = {
+		#name            status true = ready       version
+		"LCE-Launcher" : {"installversion" : "-"},
+		"vanilla-lce" : {"status" : false, "installversion" : "-"},
+	}
+	FileEditor.save_data()
+
 func check_installer():
 	if !FileAccess.file_exists(FileEditor.rootpath + "/LCE-Launcher-Installer.exe"):
 		loading_text_msg("downloading installer file")
@@ -29,20 +44,22 @@ func check_installer():
 			"installname" : "",
 			"insamerelease" : false,
 			"requestnode" : self,
-			"downloadpath" : FileEditor.rootpath
+			"downloadpath" : FileEditor.rootpath,
+			"gitargs" : false,
+			"removeold" : false
 		})
 	else:
 		loading_text_msg("checking for updates")
 		check_for_updates()
 
 func check_for_updates():
-	var data = FileEditor.open_json(FileEditor.rootpath + "/installsinfo.json")
+	var data = FileEditor.open_json(FileEditor.rootpath + "/cache.json")
 	if data.has("LCE-Launcher"):
 		data["LCE-Launcher"]["installversion"] = ProjectSettings.get_setting("application/config/version")
 	else:
 		data["LCE-Launcher"] = {"installversion" : ProjectSettings.get_setting("application/config/version")}
-	GlobalVariables.installations = data
-	FileEditor.save_installsdata()
+	GlobalVariables.cache = data
+	FileEditor.save_data()
 	
 	if !"--noupdatecheck" in OS.get_cmdline_args():
 		loading_text_msg("updating")
@@ -52,7 +69,9 @@ func check_for_updates():
 			"installname" : "LCE-Launcher",
 			"insamerelease" : false,
 			"requestnode" : self,
-			"downloadpath" : FileEditor.rootpath
+			"downloadpath" : FileEditor.rootpath,
+			"gitargs" : false,
+			"removeold" : false
 		})
 	else:
 		print("skiped updatecheck")
@@ -84,6 +103,8 @@ func install_finished(installname :String):
 			get_tree().quit()
 	elif installname == "":
 		check_for_updates()
+	else:
+		GlobalVariables.cache[installname]["status"] = true
 
 func install_uptodate(installname :String):
 	loading_text_msg("up to date: " + installname)

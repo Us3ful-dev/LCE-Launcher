@@ -1,117 +1,229 @@
 extends Control
 
-const INSTALLTILE := preload("res://Scenes/UI/Tiles/installed_tile.tscn")
-var currenmenu := "main"
+const INSTALLBOX := preload("res://Scenes/UI/Tiles/install_tile.tscn")
+const SAVESBOX := preload("res://Scenes/UI/Tiles/save_tile.tscn")
+
+var currenmenu := "installs"
 var curreninstall := ""
 var installsteps := []
 
+var editnode :Control
+var dirrequestnode :Control
+
 func _ready() -> void:
 	GlobalVariables.uinode = self
-	menu_manager("main")
+	menu_manager("installs")
+	update_cached_installs()
 
-func menu_manager(newmenu :String) -> void:
-	currenmenu = newmenu
-	if currenmenu == "main":
-		build_installed_vbox()
-		$MainField/NewInstallButton.visible = true
-		$TopBar/GithubToken.visible = true
-		$MainField/EditInstall.visible = false
-	elif newmenu == "main/edit_installation":
-		$MainField/Installed.visible = false
-		$MainField/NewInstallButton.visible = false
-		$TopBar/GithubToken.visible = false
-		$MainField/EditInstall.visible = true
-	elif newmenu == "main/new_installation":
-		$MainField/Installed.visible = false
-		$MainField/NewInstallButton.visible = false
-		$TopBar/GithubToken.visible = false
-		$MainField/EditInstall.visible = true
-	
-
-func setup_installedit():
-	%ErrorMSG.text = ""
-	if currenmenu == "main/edit_installation":
-		$MainField/EditInstall/FinishInstall.text = "Save Changes"
-	elif currenmenu == "main/new_installation":
-		$MainField/EditInstall/FinishInstall.text = "Create Installation"
-
-func build_installed_vbox():
-	$MainField/Installed.visible = true
-	for install in GlobalVariables.installations:
-		if install != "LCE-Launcher" and !GlobalVariables.installtiles.has(install):
-			var newtile := INSTALLTILE.instantiate()
-			newtile.linkedinstall = install
-			newtile.status = GlobalVariables.installations[install]["status"]
-			$MainField/Installed/Installedvbox.add_child.call_deferred(newtile)
-			newtile.setup()
+func update_cached_installs() -> void:
+	var dirs := DirAccess.get_directories_at(FileEditor.rootpath + "/cache")
+	for dir in dirs:
+		var fullargs = GlobalVariables.installgitsettings[dir].duplicate_deep()
+		fullargs["installname"] = dir
+		fullargs["requestnode"] = self
+		fullargs["downloadpath"] = FileEditor.rootpath + "/cache/" + dir
+		fullargs["removeold"] = true
+		GithubControl.update_github_file(fullargs)
 
 func failed_install(installname :String):
 	print("failed: ", installname)
+	GlobalVariables.cache[installname]["status"] = true
 
 func install_finished(installname :String):
 	print("finished: ", installname)
-	next_install_step()
+	GlobalVariables.cache[installname]["status"] = true
 
 func install_uptodate(installname :String):
 	print("up to date: ", installname)
+	GlobalVariables.cache[installname]["status"] = true
 
-func next_install_step():
-	if len(installsteps) > 0:
-		var noautonext := false
-		if installsteps[0].has("git"):
-			print("requesting github")
-			noautonext = true
-			GithubControl.update_github_file(installsteps[0]["git"])
-			GlobalVariables.installtiles[installsteps[0]["git"]["installname"]].set_status("Installing")
-		elif installsteps[0].has("unzip"):
-			noautonext = true
-			print("unzipping: ", installsteps[0]["unzip"][0], installsteps[0]["unzip"][1], true)
-			FileEditor.extract_zip(installsteps[0]["unzip"][0], installsteps[0]["unzip"][1], true)
-		elif installsteps[0].has("final"):
-			print("finalizing tile: ", GlobalVariables.installtiles[installsteps[0]["final"]])
-			GlobalVariables.installations[ installsteps[0]["final"] ]["status"] = "ready"
-			GlobalVariables.installtiles[ installsteps[0]["final"] ].set_status()
-			FileEditor.save_installsdata()
-		installsteps.remove_at(0)
-		if !noautonext:
-			next_install_step()
+func menu_manager(newmenu :String) -> void:
+	currenmenu = newmenu
+	if currenmenu == "installs":
+		build_installs_vbox()
+		$Sidebar/SelectedButton.visible = true
+		$Sidebar/SelectedButton.position = $Sidebar/Installations.position
+		
+		$MainTile/Settings.visible = false
+		$MainTile/Profile.visible = false
+		$MainTile/EditInstall.visible = false
+		$MainTile/SelectedInstallSaves.visible = false
+		$MainTile/Saves.visible = false
+		$MainTile/Installs.visible = true
+		$BottomBar.visible = true
+	elif newmenu == "installs/edit_installation":
+		$MainTile/Installs.visible = false
+		$MainTile/EditInstall.visible = true
+		setup_installedit()
+	elif newmenu == "installs/new_installation":
+		$MainTile/Installs.visible = false
+		$MainTile/EditInstall.visible = true
+		setup_installedit()
+	elif newmenu == "saves":
+		build_saves_menubutton()
+		_on_selected_install_saves_item_selected(0)
+		$Sidebar/SelectedButton.visible = true
+		$Sidebar/SelectedButton.position = $Sidebar/Saves.position
+		
+		$MainTile/Settings.visible = false
+		$MainTile/Profile.visible = false
+		$MainTile/SelectedInstallSaves.visible = true
+		$MainTile/Saves.visible = true
+		$MainTile/Installs.visible = false
+		$BottomBar.visible = false
+	elif newmenu == "profile":
+		$Sidebar/SelectedButton.visible = false
+		
+		$MainTile/Settings.visible = false
+		$MainTile/Profile.visible = true
+		$MainTile/SelectedInstallSaves.visible = false
+		$MainTile/Saves.visible = false
+		$MainTile/Installs.visible = false
+		$BottomBar.visible = false
+	elif newmenu == "settings":
+		$Sidebar/SelectedButton.visible = false
+		
+		$MainTile/Settings.visible = true
+		$MainTile/Profile.visible = false
+		$MainTile/SelectedInstallSaves.visible = false
+		$MainTile/Saves.visible = false
+		$MainTile/Installs.visible = false
+		$BottomBar.visible = false
 
-func _on_github_token_changed(token: String) -> void:
-	GithubControl.githubtoken = token
+func build_installs_vbox() -> void:
+	for install in GlobalVariables.installations:
+		if !GlobalVariables.installboxes.has(install):
+			var newbox := INSTALLBOX.instantiate()
+			newbox.linkedinstall = install
+			$MainTile/Installs/VBox.add_child.call_deferred(newbox)
+			newbox.setup()
 
-func _on_new_install_button_down() -> void:
-	menu_manager("main/new_installation")
+func build_saves_menubutton():
+	for itemid in $MainTile/SelectedInstallSaves.item_count:
+		$MainTile/SelectedInstallSaves.remove_item(itemid)
+	for install in GlobalVariables.installations:
+		$MainTile/SelectedInstallSaves.add_item(install)
 
-func _on_finish_install_down() -> void:
-	%ErrorMSG.text = ""
-	if %SelectedName.text == "" or %SelectedName.text == "LCE-Launcher":
-		%ErrorMSG.text = "Invalid name: " + %SelectedName.text
-		return
+func show_saves_from_install(install :String):
+	for child in $MainTile/Saves/VBox.get_children():
+		child.queue_free()
 	
-	var installdir = FileEditor.rootpath + "/installations/" + %SelectedName.text
-	print("creating install at: " + installdir)
-	FileEditor.make_dirs(["/installations/" + %SelectedName.text])
-	if %InstallType.selected == 0:
-		print("creating an Vanilla LCE install")
-		GlobalVariables.installations[%SelectedName.text] = {
+	for dir in DirAccess.get_directories_at(GlobalVariables.installations[install]["path"] + "/Windows64/GameHDD"):
+		var newbox := SAVESBOX.instantiate()
+		newbox.linkedsave = dir
+		newbox.linkedsavepath = GlobalVariables.installations[install]["path"] + "/Windows64/GameHDD/" + dir
+		$MainTile/Saves/VBox.add_child.call_deferred(newbox)
+		newbox.setup()
+
+func setup_installedit():
+	%Error.text = ""
+
+func current_install_step():
+	if len(installsteps) > 0:
+		var autonext := true
+		if installsteps[0].has("getfilesoperation"):
+			print("fileoperation: ", installsteps[0])
+			if GlobalVariables.cache[ installsteps[0]["getfilesoperation"][0] ]["status"] == true:
+				var getpath :String = FileEditor.rootpath + "/cache/" + installsteps[0]["getfilesoperation"][0] + "/" + installsteps[0]["getfilesoperation"][2]
+				FileEditor.copy_file_dir.call_deferred(getpath, installsteps[0]["getfilesoperation"][1] + "/" + installsteps[0]["getfilesoperation"][2], true)
+			autonext = false
+		elif installsteps[0].has("zipoperation"):
+			print("zipoperation: ", installsteps[0])
+			FileEditor.extract_zip(installsteps[0]["zipoperation"][0], installsteps[0]["zipoperation"][1], installsteps[0]["zipoperation"][2], true)
+			autonext = false
+		elif installsteps[0].has("readyoperation"):
+			print("readyoperation: ", installsteps[0])
+			GlobalVariables.installations[ installsteps[0]["readyoperation"] ]["status"] = "ready"
+			FileEditor.save_data()
+		elif installsteps[0].has("deleteoperation"):
+			print("deleteoperation: ", installsteps[0])
+			GlobalVariables.installations.erase(installsteps[0]["deleteoperation"][0])
+			FileEditor.delete_all_from_dir(installsteps[0]["deleteoperation"][1], true)
+			FileEditor.save_data()
+		installsteps.remove_at(0)
+		if autonext:
+			current_install_step()
+
+func edit_install() -> void:
+	pass
+
+func install_new_installation() -> void:
+	var typeid :int = %InstallType.get_selected_id()
+	var type :String
+	
+	if typeid == 0:
+		type = "vanilla lce"
+	elif typeid == 1:
+		type = "axo loader"
+	elif typeid == 2:
+		type = "weave loader"
+	elif typeid == 3:
+		type = "faucet"
+	elif typeid == 4:
+		type = "loom"
+	
+	%Error.text = ""
+	if %NameInput.text == "" or GlobalVariables.installations.has(%NameInput.text):
+		%Error.text = "Error: Invalid name"
+	
+	if type == "vanilla lce":
+		FileEditor.make_dirs(["/installations/" + %NameInput.text])
+		var installdir :String = FileEditor.rootpath + "/installations/" + %NameInput.text
+		
+		var installsettings := {
+			"type" : "vanilla lce",
 			"status" : "installing",
-			#"installversion" will be added by git
+			"installversion" : GlobalVariables.cache["vanilla-lce"]["installversion"],
 			"path" : installdir,
 			"executablename" : "Minecraft.Client.exe",
 			"executableargs" : [],
+			"openterminal" : false
 		}
+		if %Fullscreen.button_pressed:
+			installsettings["executableargs"].append("-fullscreen")
+		if %Terminal.button_pressed: # does not work for some reason :(
+			installsettings["openterminal"] = true
 		
-		var fullargs = GlobalVariables.installgitsettings["vanilla lce"]
-		fullargs["installname"] = %SelectedName.text
-		fullargs["requestnode"] = self
-		fullargs["downloadpath"] = installdir
+		GlobalVariables.installations[%NameInput.text] = installsettings
+		FileEditor.save_data()
 		
-		installsteps.append({"git" : fullargs})
-		installsteps.append({"unzip" : [installdir + "/" + fullargs["requestedfilename"], installdir]})
-		installsteps.append({"final" : %SelectedName.text})
-		print("current installsteps in the works: ", installsteps)
+		installsteps.append({"getfilesoperation" : ["vanilla-lce", installdir, "LCEWindows64.zip"]})
+		installsteps.append({"zipoperation" : [installdir + "/LCEWindows64.zip", installdir, true]})
+		installsteps.append({"readyoperation" : %NameInput.text})
 		
-		FileEditor.save_installsdata()
-		next_install_step()
+		current_install_step()
 	
-	menu_manager("main")
+	menu_manager("installs")
+
+func set_dir_request_node(node :Control) -> void:
+	dirrequestnode = node
+	$FileDialog.popup_centered()
+
+func _on_installations_button_down() -> void:
+	menu_manager("installs")
+
+func _on_saves_button_down() -> void:
+	menu_manager("saves")
+
+func _on_settings_button_down() -> void:
+	menu_manager("settings")
+
+func _on_profile_button_down() -> void:
+	menu_manager("profile")
+
+func _on_new_install_button_down() -> void:
+	menu_manager("installs/new_installation")
+
+func _on_finish_install_button_down() -> void:
+	if currenmenu == "installs/new_installation":
+		install_new_installation()
+
+func _on_file_dialog_dir_selected(dir: String) -> void:
+	dirrequestnode.dirselect(dir)
+
+func _on_selected_install_saves_item_selected(index: int) -> void:
+	if $MainTile/SelectedInstallSaves.item_count > 0:
+		show_saves_from_install($MainTile/SelectedInstallSaves.get_item_text(index))
+
+func _on_name_text_changed(pname: String) -> void:
+	GlobalVariables.playername = pname

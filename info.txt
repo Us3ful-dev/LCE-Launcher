@@ -14,45 +14,12 @@ filemanagment:
 installsinfo.json layout:
 	MainDict
 	└ installname
+	  └ type (vanilla / loader)
 	  └ status
 	  └ installversion
 	  └ path
 	  └ executablename
 	  └ executableargs
-		└ -name (name)
-		└ -fullscreen (bool)
-
-TODO:
-	github integration
-	└ [X] update self
-	│ └ [X] requires updater program
-	└ [ ] update installs
-	└ [X] git token to raise request limit per hour from 60 to 5000 (user owned)
-	
-	tools for users
-	└ [ ] save world and load them in others
-	
-	filemanagment
-	└ [ ] main
-	  └ [ ] user installs
-	  └ [ ] global words and settings (from installs)
-	  └ [ ] config files (self)
-	
-	UI
-	└ [X] loading screen
-	└ [ ] homescreen
-	  └ [ ] show installs
-	  │ └ [ ] edit installs
-	  │   └ [ ] modloader support
-	  │   │ └ [ ] weave loader
-	  │   │ └ [ ] more....
-	  │   └ [ ] edit saves
-	  │   └ [ ] edit configs
-	  │     └ [ ] args (-name and more)
-	  └ [ ] settings
-	  │ └ [ ] autoupdate installs
-	  │ └ [ ] ...
-	  └ [ ] gloabal manager ()
-	
-	FIXES
-	└ [ ] windows defender being stupid
+	  │ └ -name (name)
+	  │ └ -fullscreen (bool)
+	  └ terminal

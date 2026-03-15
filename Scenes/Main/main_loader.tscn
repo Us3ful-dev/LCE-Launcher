@@ -12,8 +12,8 @@ script = ExtResource("1_chasf")
 [node name="Loadingscreen" type="CanvasLayer" parent="." unique_id=1979596694]
 
 [node name="Background" type="Sprite2D" parent="Loadingscreen" unique_id=1693666611]
-position = Vector2(600, 325)
 texture = ExtResource("2_xajni")
+offset = Vector2(600, 375)
 
 [node name="Loading" type="Label" parent="Loadingscreen" unique_id=1632152023]
 unique_name_in_owner = true

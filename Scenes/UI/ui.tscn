@@ -1,26 +1,26 @@
 [gd_scene format=3 uid="uid://mmcgg5adsukk"]
 
 [ext_resource type="Script" uid="uid://dnwor6wqfamst" path="res://Scenes/UI/ui.gd" id="1_ahcct"]
-[ext_resource type="FontFile" uid="uid://blbsshn847h61" path="res://editundo.ttf" id="2_de23q"]
-[ext_resource type="Texture2D" uid="uid://cuygtb1wo6ett" path="res://StandardThemeTiles/TopBar.png" id="2_fo61o"]
-[ext_resource type="Texture2D" uid="uid://bpktnpbjpfo0p" path="res://icons/addnew.png" id="3_c7mb3"]
-[ext_resource type="Texture2D" uid="uid://cpt2jh061b3dg" path="res://StandardThemeTiles/MainField.png" id="4_alcrr"]
+[ext_resource type="Texture2D" uid="uid://ce6fcpvaop6hr" path="res://StandardThemeTiles/SideBar.png" id="2_de23q"]
+[ext_resource type="Texture2D" uid="uid://cibbq7pprgtuu" path="res://StandardThemeTiles/Main.png" id="3_c7mb3"]
+[ext_resource type="Texture2D" uid="uid://c8vjrbatxi447" path="res://StandardThemeTiles/SelectedButton.png" id="3_duuxe"]
+[ext_resource type="Texture2D" uid="uid://bxqt8oyrh00gl" path="res://icons/options.png" id="3_fo61o"]
+[ext_resource type="Texture2D" uid="uid://c43hpg2fmnh5h" path="res://StandardThemeTiles/LowBar.png" id="5_alcrr"]
+[ext_resource type="Texture2D" uid="uid://bpktnpbjpfo0p" path="res://icons/addnew.png" id="7_duuxe"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_c7mb3"]
-font = ExtResource("2_de23q")
+[sub_resource type="LabelSettings" id="LabelSettings_duuxe"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_s3gqk"]
+font_size = 20
+font_color = Color(0.5742352, 0.058561094, 1.4439226e-07, 1)
+outline_size = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_jfwrg"]
 font_size = 30
-font_color = Color(0.8217887, 0.82178867, 0.82178867, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_fo61o"]
-font = ExtResource("2_de23q")
-font_size = 20
-font_color = Color(0.8474744, 0.84747446, 0.84747446, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_alcrr"]
-font_size = 20
-font_color = Color(0.8196969, 0.018333076, 5.7756904e-07, 1)
-outline_size = 2
-outline_color = Color(0, 0, 0, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_mbl0m"]
+font_size = 25
 
 [node name="UI" type="Control" unique_id=274926796]
 layout_mode = 3
@@ -31,143 +31,297 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ahcct")
 
-[node name="TopBar" type="Sprite2D" parent="." unique_id=428320755]
-position = Vector2(600, 22)
-texture = ExtResource("2_fo61o")
-metadata/_edit_use_anchors_ = true
+[node name="Sidebar" type="Sprite2D" parent="." unique_id=589258929]
+texture = ExtResource("2_de23q")
+offset = Vector2(185, 375)
 
-[node name="GithubToken" type="LineEdit" parent="TopBar" unique_id=217416095]
+[node name="SelectedButton" type="Sprite2D" parent="Sidebar" unique_id=541840574]
+position = Vector2(21, 16)
+texture = ExtResource("3_duuxe")
+offset = Vector2(175, 22)
+
+[node name="Installations" type="Button" parent="Sidebar" unique_id=302008148]
 anchors_preset = -1
-anchor_left = 0.60833335
-anchor_top = 0.1590909
-anchor_right = 0.99
-anchor_bottom = 0.8636364
-offset_left = -599.0
-offset_top = -23.0
-offset_right = -599.0
-offset_bottom = -23.0
-tooltip_text = "more available update requests to github api: 60 -> 5000 an hour"
-theme_override_fonts/font = ExtResource("2_de23q")
-placeholder_text = "Your Github Token"
-emoji_menu_enabled = false
-metadata/_edit_use_anchors_ = true
-
-[node name="MainField" type="Sprite2D" parent="." unique_id=1914282331]
-texture = ExtResource("4_alcrr")
-offset = Vector2(600, 347)
-metadata/_edit_use_anchors_ = true
-
-[node name="NewInstallButton" type="Button" parent="MainField" unique_id=1895639871]
-anchors_preset = -1
-anchor_left = 0.0058333334
-anchor_top = 0.013201321
-anchor_right = 0.18958333
-anchor_bottom = 0.072607264
-offset_top = 44.0
-offset_right = 220.5
-offset_bottom = 80.0
-scale = Vector2(0.5, 0.5)
-theme_override_fonts/font = ExtResource("2_de23q")
+anchor_left = 0.056818184
+anchor_top = 0.021333333
+anchor_right = 0.9431818
+anchor_bottom = 0.08
+offset_left = -0.022727966
+offset_right = 2.0227356
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
+theme_override_colors/font_focus_color = Color(0.6337567, 0.6337569, 0.6337566, 1)
+theme_override_colors/font_pressed_color = Color(0.52906674, 0.52906674, 0.52906656, 1)
+theme_override_colors/font_hover_color = Color(0.63529414, 0.63529414, 0.63529414, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.5294118, 0.5294118, 0.5294118, 1)
 theme_override_font_sizes/font_size = 40
-text = "New instalation"
-icon = ExtResource("3_c7mb3")
+text = "Installations"
+flat = true
 metadata/_edit_use_anchors_ = true
 
-[node name="Installed" type="ScrollContainer" parent="MainField" unique_id=202870603]
+[node name="Saves" type="Button" parent="Sidebar" unique_id=73733257]
 anchors_preset = -1
-anchor_top = 0.08250825
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 44.0
-offset_bottom = 44.0
+anchor_left = 0.056818184
+anchor_top = 0.09066667
+anchor_right = 0.9431818
+anchor_bottom = 0.14933333
+offset_left = -0.022727966
+offset_right = 2.0227356
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
+theme_override_colors/font_focus_color = Color(0.6337567, 0.6337569, 0.6337566, 1)
+theme_override_colors/font_pressed_color = Color(0.52906674, 0.52906674, 0.52906656, 1)
+theme_override_colors/font_hover_color = Color(0.63529414, 0.63529414, 0.63529414, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.5294118, 0.5294118, 0.5294118, 1)
+theme_override_font_sizes/font_size = 40
+text = "Saves"
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Settings" type="Button" parent="Sidebar" unique_id=173046229]
+anchors_preset = -1
+anchor_left = 0.020884521
+anchor_top = 0.88266665
+anchor_right = 0.21547912
+anchor_bottom = 0.97866666
+offset_left = 3.0
+offset_right = 3.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+icon = ExtResource("3_fo61o")
+metadata/_edit_use_anchors_ = true
+
+[node name="Profile" type="Button" parent="Sidebar" unique_id=1306450226]
+anchors_preset = -1
+anchor_left = 0.24717444
+anchor_top = 0.88266665
+anchor_right = 0.94944704
+anchor_bottom = 0.97866666
+offset_left = 3.0
+offset_right = 3.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Profile"
+metadata/_edit_use_anchors_ = true
+
+[node name="MainTile" type="Sprite2D" parent="." unique_id=450047372]
+texture = ExtResource("3_c7mb3")
+offset = Vector2(785, 375)
+
+[node name="Installs" type="ScrollContainer" parent="MainTile" unique_id=624281452]
+visible = false
+anchors_preset = -1
+anchor_left = 0.02840032
+anchor_top = 0.016
+anchor_right = 0.99225575
+anchor_bottom = 0.856
+offset_left = 370.0
+offset_right = 370.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Installedvbox" type="VBoxContainer" parent="MainField/Installed" unique_id=754549121]
+[node name="VBox" type="VBoxContainer" parent="MainTile/Installs" unique_id=762506394]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="EditInstall" type="VBoxContainer" parent="MainField" unique_id=195810466]
+[node name="SelectedInstallSaves" type="OptionButton" parent="MainTile" unique_id=1958183236]
+visible = false
 anchors_preset = -1
-anchor_left = 0.30541667
-anchor_top = 0.16006601
-anchor_right = 0.69458336
-anchor_bottom = 0.839934
-offset_top = 44.0
-offset_bottom = 44.0
+anchor_left = 0.014457831
+anchor_top = 0.006666667
+anchor_right = 0.99036145
+anchor_bottom = 0.037333332
+offset_left = 370.0
+offset_top = 5.0
+offset_right = 370.0
+offset_bottom = 13.000002
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 6
+theme_override_font_sizes/font_size = 25
+selected = 0
+fit_to_longest_item = false
+allow_reselect = true
+item_count = 1
+popup/item_0/text = "Install"
+popup/item_0/id = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="Title" type="Label" parent="MainField/EditInstall" unique_id=1534064811]
+[node name="Saves" type="ScrollContainer" parent="MainTile" unique_id=1426243851]
+visible = false
+anchors_preset = -1
+anchor_left = 0.014457831
+anchor_top = 0.06
+anchor_right = 0.9927711
+anchor_bottom = 0.992
+offset_left = 370.0
+offset_right = 368.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBox" type="VBoxContainer" parent="MainTile/Saves" unique_id=673491565]
 layout_mode = 2
-text = "Installation settings:"
-label_settings = SubResource("LabelSettings_c7mb3")
+
+[node name="EditInstall" type="VBoxContainer" parent="MainTile" unique_id=357862204]
+anchors_preset = -1
+anchor_left = 0.28433734
+anchor_top = 0.09866667
+anchor_right = 0.71566266
+anchor_bottom = 0.756
+offset_left = 370.0
+offset_right = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="MainTile/EditInstall" unique_id=58879073]
+layout_mode = 2
+text = "<Name>"
+label_settings = SubResource("LabelSettings_duuxe")
 horizontal_alignment = 1
 
-[node name="InstallName" type="HBoxContainer" parent="MainField/EditInstall" unique_id=1650502889]
-layout_mode = 2
-theme_override_constants/separation = 4
-alignment = 1
-
-[node name="Name" type="Label" parent="MainField/EditInstall/InstallName" unique_id=764015450]
-layout_mode = 2
-text = "Name of install: "
-label_settings = SubResource("LabelSettings_fo61o")
-
-[node name="SelectedName" type="LineEdit" parent="MainField/EditInstall/InstallName" unique_id=450530032]
+[node name="NameInput" type="LineEdit" parent="MainTile/EditInstall" unique_id=360685984]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-tooltip_text = "Name of installation
-Max 20 caracters (for now)"
-theme_override_fonts/font = ExtResource("2_de23q")
-theme_override_font_sizes/font_size = 20
-placeholder_text = "name"
-max_length = 20
+theme_override_font_sizes/font_size = 25
+placeholder_text = "Install name"
 emoji_menu_enabled = false
-middle_mouse_paste_enabled = false
-drag_and_drop_selection_enabled = false
 
-[node name="Installtypebox" type="HBoxContainer" parent="MainField/EditInstall" unique_id=514976082]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="Name" type="Label" parent="MainField/EditInstall/Installtypebox" unique_id=2040503756]
-layout_mode = 2
-text = "Type of install: "
-label_settings = SubResource("LabelSettings_fo61o")
-
-[node name="InstallType" type="OptionButton" parent="MainField/EditInstall/Installtypebox" unique_id=1642223998]
+[node name="InstallType" type="OptionButton" parent="MainTile/EditInstall" unique_id=1598520463]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_de23q")
-theme_override_font_sizes/font_size = 20
-allow_reselect = true
-item_count = 3
+theme_override_font_sizes/font_size = 25
+selected = 0
+item_count = 5
 popup/item_0/text = "Vanilla LCE"
 popup/item_0/id = 0
-popup/item_1/text = "Weave Loader"
+popup/item_1/text = "Axo Loader"
 popup/item_1/id = 1
-popup/item_2/text = "Faucet Loader"
+popup/item_1/disabled = true
+popup/item_2/text = "Weave Loader"
 popup/item_2/id = 2
+popup/item_2/disabled = true
+popup/item_3/text = "Faucet"
+popup/item_3/id = 3
+popup/item_3/disabled = true
+popup/item_4/text = "Loom"
+popup/item_4/id = 4
+popup/item_4/disabled = true
 
-[node name="FinishInstall" type="Button" parent="MainField/EditInstall" unique_id=579348931]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_de23q")
-theme_override_font_sizes/font_size = 24
-text = "Create Installation"
-
-[node name="ErrorMSG" type="Label" parent="MainField/EditInstall" unique_id=2002234439]
+[node name="Fullscreen" type="CheckBox" parent="MainTile/EditInstall" unique_id=1228032380]
 unique_name_in_owner = true
 layout_mode = 2
-label_settings = SubResource("LabelSettings_alcrr")
+theme_override_font_sizes/font_size = 25
+text = "Fullscreen"
+
+[node name="Terminal" type="CheckBox" parent="MainTile/EditInstall" unique_id=128676806]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+disabled = true
+text = "Open terminal on launch"
+
+[node name="FinishInstall" type="Button" parent="MainTile/EditInstall" unique_id=1127586069]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Finish install"
+
+[node name="Error" type="Label" parent="MainTile/EditInstall" unique_id=455576182]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_s3gqk")
 horizontal_alignment = 1
 
-[connection signal="text_changed" from="TopBar/GithubToken" to="." method="_on_github_token_changed"]
-[connection signal="button_down" from="MainField/NewInstallButton" to="." method="_on_new_install_button_down"]
-[connection signal="button_down" from="MainField/EditInstall/FinishInstall" to="." method="_on_finish_install_down"]
+[node name="Settings" type="VBoxContainer" parent="MainTile" unique_id=779263982]
+visible = false
+anchors_preset = -1
+anchor_left = 0.28433734
+anchor_top = 0.09866667
+anchor_right = 0.71566266
+anchor_bottom = 0.76
+offset_left = 370.0
+offset_right = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Profile" type="VBoxContainer" parent="MainTile" unique_id=653913623]
+visible = false
+anchors_preset = -1
+anchor_left = 0.28433734
+anchor_top = 0.09866667
+anchor_right = 0.71566266
+anchor_bottom = 0.7773333
+offset_left = 370.0
+offset_right = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="MainTile/Profile" unique_id=985549599]
+layout_mode = 2
+text = "Profile"
+label_settings = SubResource("LabelSettings_jfwrg")
+horizontal_alignment = 1
+
+[node name="Name" type="HBoxContainer" parent="MainTile/Profile" unique_id=300526061]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MainTile/Profile/Name" unique_id=2116475541]
+layout_mode = 2
+text = "Name: "
+label_settings = SubResource("LabelSettings_mbl0m")
+
+[node name="Name" type="LineEdit" parent="MainTile/Profile/Name" unique_id=2099532532]
+layout_mode = 2
+size_flags_horizontal = 3
+emoji_menu_enabled = false
+
+[node name="BottomBar" type="Sprite2D" parent="." unique_id=329475320]
+texture = ExtResource("5_alcrr")
+offset = Vector2(785, 710)
+
+[node name="NewInstall" type="Button" parent="BottomBar" unique_id=1001819881]
+anchors_preset = -1
+anchor_left = 0.6204819
+anchor_top = 0.1625
+anchor_right = 0.97951806
+anchor_bottom = 0.8625
+offset_left = 370.0
+offset_top = 670.0
+offset_right = 370.0
+offset_bottom = 670.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/icon_max_width = 48
+theme_override_font_sizes/font_size = 30
+text = "New Installation"
+icon = ExtResource("7_duuxe")
+metadata/_edit_use_anchors_ = true
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=244675922]
+oversampling_override = 1.0
+title = "Open a Directory"
+initial_position = 1
+file_mode = 2
+display_mode = 1
+use_native_dialog = true
+favorites_enabled = false
+recent_list_enabled = false
+
+[connection signal="button_down" from="Sidebar/Installations" to="." method="_on_installations_button_down"]
+[connection signal="button_down" from="Sidebar/Saves" to="." method="_on_saves_button_down"]
+[connection signal="button_down" from="Sidebar/Settings" to="." method="_on_settings_button_down"]
+[connection signal="button_down" from="Sidebar/Profile" to="." method="_on_profile_button_down"]
+[connection signal="item_selected" from="MainTile/SelectedInstallSaves" to="." method="_on_selected_install_saves_item_selected"]
+[connection signal="button_down" from="MainTile/EditInstall/FinishInstall" to="." method="_on_finish_install_button_down"]
+[connection signal="text_changed" from="MainTile/Profile/Name/Name" to="." method="_on_name_text_changed"]
+[connection signal="button_down" from="BottomBar/NewInstall" to="." method="_on_new_install_button_down"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_file_dialog_dir_selected"]

@@ -8,6 +8,10 @@
 
 config_version=5
 
+[accessibility]
+
+general/updates_per_second=20
+
 [application]
 
 config/name="LCE Launcher"
@@ -26,9 +30,8 @@ GlobalVariables="*uid://7133p2emue05"
 [display]
 
 window/size/viewport_width=1200
-window/size/viewport_height=650
+window/size/viewport_height=750
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
 window/vsync/vsync_mode=0
 
 [gui]

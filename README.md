@@ -18,8 +18,7 @@ This loader manages your LCE installations and can update them if wanted (from g
 githubapi integration
 - └ [X] update self
 - │ └ [X] requires updater program
-- └ [X] update installs
-- └ [X] git token to raise request limit per hour from 60 to 5000 (user owned)
+- └ [ ] update installs
 
 tools for users
 - └ [ ] save world and load them in others
@@ -33,8 +32,8 @@ filemanagment
 UI
 - └ [X] loading screen
 - └ [X] homescreen
--   └ [X] show installs
--   │ └ [X] edit installs
+-   └ [ ] show installs
+-   │ └ [ ] edit installs
 -   │   └ [ ] modloader support
 -   │   │ └ [ ] weave loader
 -   │   │ └ [ ] more....
@@ -50,3 +49,6 @@ UI
 -   └ [ ] settings
 -   │ └ [ ] autoupdate installs
 -   │ └ [ ] load custom theme
+
+FIXES
+- └ [ ] windows defender being stupid (certificate?)

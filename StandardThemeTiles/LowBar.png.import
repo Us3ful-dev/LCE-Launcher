@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpt2jh061b3dg"
-path="res://.godot/imported/MainField.png-e0dcce8df2d3760297c6b61e528e85ca.ctex"
+uid="uid://c43hpg2fmnh5h"
+path="res://.godot/imported/LowBar.png-2ba3c0049180a01b370cfe3997dfd48f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StandardThemeTiles/MainField.png"
-dest_files=["res://.godot/imported/MainField.png-e0dcce8df2d3760297c6b61e528e85ca.ctex"]
+source_file="res://StandardThemeTiles/LowBar.png"
+dest_files=["res://.godot/imported/LowBar.png-2ba3c0049180a01b370cfe3997dfd48f.ctex"]
 
 [params]
 
